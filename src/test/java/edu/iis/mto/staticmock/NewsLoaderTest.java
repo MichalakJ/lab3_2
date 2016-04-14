@@ -27,16 +27,17 @@ public class NewsLoaderTest {
     NewsReaderFactory newsReaderFactory;
     Configuration config;
     NewsReader newsReader;
+    IncomingNews news;
     @Before
     public void setUpForTest() throws Exception {
         mockStatic(ConfigurationLoader.class);
 	mockStatic(NewsReaderFactory.class);
-        
+        news = new IncomingNews();
         configLoader = mock(ConfigurationLoader.class);
 	newsReaderFactory = mock(NewsReaderFactory.class);
 	config = mock(Configuration.class);
 	newsReader = mock(NewsReader.class);
-
+        when(newsReader.read()).thenReturn(news);
 	when(ConfigurationLoader.getInstance()).thenReturn(configLoader);
 	when(configLoader.loadConfiguration()).thenReturn(config); 
         when(NewsReaderFactory.getReader(any(String.class))).thenReturn(newsReader);
@@ -45,7 +46,7 @@ public class NewsLoaderTest {
     
     @Test
     public void givenTwoNewsWithNoSubsciption_whenLoadNews_resultHasTwoPublicPositions(){
-        IncomingNews news = new IncomingNews();
+
         news.add(new IncomingInfo("asd", SubsciptionType.NONE));
         news.add(new IncomingInfo("bles", SubsciptionType.NONE));
         when(newsReader.read()).thenReturn(news);
@@ -58,10 +59,9 @@ public class NewsLoaderTest {
     }
     @Test
     public void givenTwoNewsWithSubsricption_whenLoadNews_resultHasTwoSubscribedPositions(){
-        IncomingNews news = new IncomingNews();
+
         news.add(new IncomingInfo("asd", SubsciptionType.A));
         news.add(new IncomingInfo("bles", SubsciptionType.A));
-        when(newsReader.read()).thenReturn(news);
         NewsLoader newsLoader = new NewsLoader();
         PublishableNews result = newsLoader.loadNews();
         
