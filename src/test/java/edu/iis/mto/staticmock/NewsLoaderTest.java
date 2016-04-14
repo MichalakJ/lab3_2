@@ -6,6 +6,8 @@
 package edu.iis.mto.staticmock;
 
 import edu.iis.mto.staticmock.reader.NewsReader;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -49,7 +51,9 @@ public class NewsLoaderTest {
         when(newsReader.read()).thenReturn(news);
         NewsLoader newsLoader = new NewsLoader();
         PublishableNews result = newsLoader.loadNews();
-   
+        
+        assertThat(result.getPublicContent().size(), equalTo(2));
+        
         
     }
 }

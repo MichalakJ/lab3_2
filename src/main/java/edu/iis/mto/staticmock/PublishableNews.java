@@ -16,7 +16,14 @@ public class PublishableNews {
 		this.publicContent .add(content);
 		
 	}
-
+        
+        public List<String> getPublicContent(){
+            return publicContent;
+        }
+        public List<String> getSubsribentContent(){
+            return subscribentContent;
+        }
+        
 	public void addForSubscription(String content, SubsciptionType subscriptionType) {
 		// TODO Auto-generated method stub
 		
