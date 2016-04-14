@@ -44,7 +44,7 @@ public class NewsLoaderTest {
         }
     
     @Test
-    public void givenTwoNewsWithNoSubsciption_whenLoadNews_addPublicInfoCalledTwoTimes(){
+    public void givenTwoNewsWithNoSubsciption_whenLoadNews_resultHasTwoPublicPositions(){
         IncomingNews news = new IncomingNews();
         news.add(new IncomingInfo("asd", SubsciptionType.NONE));
         news.add(new IncomingInfo("bles", SubsciptionType.NONE));
@@ -55,5 +55,16 @@ public class NewsLoaderTest {
         assertThat(result.getPublicContent().size(), equalTo(2));
         
         
+    }
+    @Test
+    public void givenTwoNewsWithSubsricption_whenLoadNews_resultHasTwoSubscribedPositions(){
+        IncomingNews news = new IncomingNews();
+        news.add(new IncomingInfo("asd", SubsciptionType.A));
+        news.add(new IncomingInfo("bles", SubsciptionType.A));
+        when(newsReader.read()).thenReturn(news);
+        NewsLoader newsLoader = new NewsLoader();
+        PublishableNews result = newsLoader.loadNews();
+        
+        assertThat(result.getSubsribentContent().size(), equalTo(2));
     }
 }
